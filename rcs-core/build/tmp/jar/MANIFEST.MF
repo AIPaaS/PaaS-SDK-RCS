@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+packageName: rcs-core
+Built-By: gradle 2.1
+create-date: 2016-03-16 14:40:36
+

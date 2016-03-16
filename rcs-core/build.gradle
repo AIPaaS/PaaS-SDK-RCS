@@ -1,0 +1,69 @@
+project.ext {
+	appName = "rcs-core"
+}
+
+jar {
+	baseName appName
+    version moduleVersion
+    exclude "*.properties"
+    exclude "*.xml"
+    manifest {
+        attributes 'packageName': appName, 'Built-By': builtBy, 'create-date': new Date().format('yyyy-MM-dd HH:mm:ss')
+    }
+}
+
+publish.dependsOn build
+
+publishing {
+    publications {
+       publishing.publications.create("${appName}", MavenPublication) {
+            groupId group
+            artifactId appName
+            version moduleVersion
+            artifact  jar
+            pom.withXml {
+	            asNode().children().last() + {
+	                delegate.dependencies {
+	                	delegate.dependency {
+	                        delegate.groupId("org.apache.storm")
+	                        delegate.artifactId("storm-core")
+	                        delegate.version("0.9.3")
+							delegate.exclusions{
+								delegate.exclusion{
+									delegate.groupId("org.slf4j")
+									delegate.artifactId("slf4j-api")
+								}
+								delegate.exclusion{
+									delegate.groupId("log4j")
+									delegate.artifactId("log4j")
+								}
+								delegate.exclusion{
+									delegate.groupId("org.slf4j")
+									delegate.artifactId("log4j-over-slf4j")
+								}
+								delegate.exclusion{
+									delegate.groupId("javax.servlet")
+									delegate.artifactId("servlet-api")
+								}
+							}
+	                    }
+	                    delegate.dependency {
+							delegate.groupId("com.google.code.gson")
+							delegate.artifactId("gson")
+							delegate.version("1.7.2")
+						}
+	                }
+	            }
+	        }
+        }
+    }
+    repositories {
+        maven {
+            url  publishURL
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}

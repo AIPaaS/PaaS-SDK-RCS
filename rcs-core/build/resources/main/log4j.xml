@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+    
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+       <layout class="org.apache.log4j.PatternLayout"> 
+          <param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n"/> 
+       </layout> 
+    </appender>
+    <appender name="RollingFile" class="org.apache.log4j.RollingFileAppender">
+    	<param name="MaxFileSize" value="100MB"/> 
+    	<param name="File" value="woego_logMessageServer.log"/>
+    	<param name="Append" value="true" />  
+       	<layout class="org.apache.log4j.PatternLayout"> 
+          	<param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n"/> 
+       </layout> 
+    </appender>
+    
+    <appender name="MSGOUT" class="com.ai.paas.log.impl.MessageLogAppender">
+    	<param name="logTopic" value="paas_log_topic"/> 
+    	<param name="appName" value="woego"/> 
+    	<param name="confPath" value="/com/ai/paas/message/messageSender"/> 
+    	<layout class="org.apache.log4j.PatternLayout"> 
+          	<param name="ConversionPattern" value="%d %-5p %c.%M:%L - %m%n"/> 
+       	</layout> 
+       	<filter class="org.apache.log4j.varia.LevelRangeFilter">  
+            <param name="levelMin" value="INFO" />  
+            <param name="AcceptOnMatch" value="true" />  
+        </filter>
+    </appender>
+ 
+    <!-- specify the logging level for loggers from other libraries -->
+    <logger name="com.alibaba.dubbo">
+    	 <level value="DEBUG" />
+    </logger>       
+    <logger name="com.ai">
+    	 <level value="DEBUG" />
+    	 <!-- 
+    	 <appender-ref ref="MSGOUT" />
+    	  --> 
+    </logger>
+    
+   <!-- for all other loggers log only info and above log messages -->
+     <root>
+        <priority value="DEBUG"/> 
+        <appender-ref ref="STDOUT" /> 
+        <!--  
+        <appender-ref ref="MSGOUT" /> 
+        -->
+     </root> 
+    
+</log4j:configuration> 
