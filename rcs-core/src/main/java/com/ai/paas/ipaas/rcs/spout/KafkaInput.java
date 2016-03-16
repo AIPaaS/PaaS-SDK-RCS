@@ -46,21 +46,25 @@ public class KafkaInput extends Input {
 	}
 
 	public String open(Map conf, FlowContext aContext, InputCollector aCollector) {
+		this.kafkaSpout.open(conf, aContext.getFlowContext(), aCollector.getmCollector());
 		return null;
 	}
 
 	public String getNext() {
+		this.kafkaSpout.nextTuple();
 		return null;
 	}
 
 	public Fields getOutFields() {
-		return null;
+		return new Fields(new String[] { INPUT_NAME });
 	}
 
 	public void ack(Object msgId) {
+		this.kafkaSpout.ack(msgId);
 	}
 
 	public void fail(Object msgId) {
+		this.kafkaSpout.fail(msgId);
 	}
 
 	public void buildLogger(Logger log) {
