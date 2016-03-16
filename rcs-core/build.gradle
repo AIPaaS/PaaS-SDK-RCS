@@ -14,6 +14,20 @@ jar {
 
 publish.dependsOn build
 
+repositories {
+	maven {
+		credentials {
+			username = publishUserName
+			password = publishUserPassword
+		}
+		if(moduleVersion.endsWith('-SNAPSHOT')) {
+			url publishSnapShotsURL
+		} else {
+			url publishReleaseURL
+		}
+	}
+}
+
 publishing {
     publications {
        publishing.publications.create("${appName}", MavenPublication) {
@@ -57,13 +71,5 @@ publishing {
 	        }
         }
     }
-    repositories {
-        maven {
-            url  publishURL
-            credentials {
-                username = publishUserName
-                password = publishUserPassword
-            }
-        }
-    }
+
 }

@@ -2,7 +2,7 @@ allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'maven-publish'
-    
+
     ext {
     	moduleMode="";
         parentName="paas-sdk-rcs"
@@ -13,23 +13,24 @@ allprojects {
         publishReleaseURL="http://10.1.228.199:18081/nexus/content/repositories/releases/"
         builtBy="gradle 2.1"
     }
-    
+
     compileJava.dependsOn clean
     sourceCompatibility = 1.7
-    
+
     configurations.all {
         resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
         exclude group: 'log4j', module: 'log4j'
         exclude group: "org.slf4j", module: "slf4j-log4j12"
     }
-    
+
     group = 'com.ai'
 }
 
 subprojects{
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-    
+
     repositories {
+        maven{ url "http://10.1.228.199:18081/nexus/content/groups/public/"  }
     	maven {
 			credentials {
 				username = publishUserName
@@ -41,9 +42,8 @@ subprojects{
 				url publishReleaseURL
 			}
 		}
-       //  maven { url "http://10.1.228.199:18081/nexus/content/groups/public/" }
     }
-    
+
     dependencies {
         compile 'org.apache.storm:storm-core:0.9.3'
 		compile 'org.apache.storm:storm-kafka:0.9.3'
