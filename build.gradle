@@ -30,18 +30,7 @@ subprojects{
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
     repositories {
-        maven{ url "http://10.1.228.199:18081/nexus/content/groups/public/"  }
-    	maven {
-			credentials {
-				username = publishUserName
-				password = publishUserPassword
-			}
-			if(moduleVersion.endsWith('-SNAPSHOT')) {
-				url publishSnapShotsURL
-			} else {
-				url publishReleaseURL
-			}
-		}
+        maven { url "http://10.1.228.199:18081/nexus/content/groups/public/"  }
     }
 
     dependencies {

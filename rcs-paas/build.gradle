@@ -63,4 +63,17 @@ publishing {
 	        }
         }
     }
+repositories {
+	maven {
+		credentials {
+			username = publishUserName
+			password = publishUserPassword
+		}
+		if(moduleVersion.endsWith('-SNAPSHOT')) {
+			url publishSnapShotsURL
+		} else {
+			url publishReleaseURL
+		}
+	}
+}
 }
